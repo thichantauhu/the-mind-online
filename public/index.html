@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Mind Online</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <main class="page-shell">
+    <section class="lobby-panel">
+      <h1 id="gameName">The Mind</h1>
+      <p class="subtext">Tạo phòng hoặc nhập mã phòng để chơi cùng bạn bè.</p>
+
+      <div id="setupView">
+        <input id="playerName" class="input" maxlength="24" placeholder="Tên người chơi" autocomplete="off" />
+        <input id="roomCode" class="input" maxlength="5" placeholder="Mã phòng (để trống nếu tạo phòng)" autocomplete="off" />
+        <div class="button-row">
+          <button id="createBtn" class="btn btn-dark">Tạo phòng</button>
+          <button id="joinBtn" class="btn btn-dark">Vào phòng</button>
+        </div>
+      </div>
+
+      <div id="roomView" hidden>
+        <div class="room-code-card">
+          <div><span>Mã phòng:</span> <strong id="roomCodeLabel">-----</strong></div>
+          <button id="copyBtn" class="copy-btn">📋 Sao chép</button>
+        </div>
+
+        <h2>Người chơi</h2>
+        <div id="players" class="players"></div>
+
+        <div class="button-row room-actions">
+          <button id="addBotBtn" class="btn btn-light">+ Thêm bot</button>
+          <button id="startBtn" class="btn btn-yellow" disabled>Bắt đầu</button>
+        </div>
+        <p id="playerLimit" class="limit-text"></p>
+        <button id="leaveBtn" class="link-btn">Rời phòng</button>
+      </div>
+
+      <p id="error" class="error" hidden></p>
+    </section>
+
+    <aside class="rules-card">
+      <h2>Luật chơi</h2>
+      <ol id="rules"></ol>
+    </aside>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/config.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
