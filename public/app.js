@@ -1,6 +1,8 @@
 const socket = io();
 const config = window.GAME_CONFIG || {};
 const $ = (id) => document.getElementById(id);
+const playerToken = localStorage.getItem('theMindPlayerToken') || (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`);
+localStorage.setItem('theMindPlayerToken', playerToken);
 
 const state = { room: null };
 
@@ -9,12 +11,7 @@ $('playerLimit').textContent = `Cần ít nhất ${config.minPlayers} người �
 $('rules').innerHTML = (config.rules || []).map((rule) => `<li>${escapeHtml(rule)}</li>`).join('');
 
 function escapeHtml(value) {
-  return String(value)
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#039;');
+  return String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
 }
 function showError(message) { $('error').textContent = message || ''; $('error').hidden = !message; }
 function renderRoom(room) {
@@ -32,8 +29,7 @@ function renderRoom(room) {
     chip.appendChild(name);
     if (isHost && player.id !== socket.id) {
       const kick = document.createElement('button');
-      kick.className = 'kick-btn';
-      kick.textContent = 'KICK';
+      kick.className = 'kick-btn'; kick.textContent = 'KICK';
       kick.onclick = () => socket.emit('room:kick', { playerId: player.id });
       chip.appendChild(kick);
     }
@@ -48,7 +44,8 @@ $('createBtn').onclick = () => {
   showError('');
   const name = $('playerName').value.trim();
   if (!name) return showError('Hãy nhập tên người chơi.');
-  socket.emit('room:create', { name });
+  localStorage.setItem('theMindPlayerName', name);
+  socket.emit('room:create', { name, token: playerToken });
 };
 $('joinBtn').onclick = () => {
   showError('');
@@ -56,7 +53,8 @@ $('joinBtn').onclick = () => {
   const code = $('roomCode').value.trim().toUpperCase();
   if (!name) return showError('Hãy nhập tên người chơi.');
   if (!code) return showError('Hãy nhập mã phòng.');
-  socket.emit('room:join', { name, code });
+  localStorage.setItem('theMindPlayerName', name);
+  socket.emit('room:join', { name, code, token: playerToken });
 };
 $('addBotBtn').onclick = () => socket.emit('room:addBot');
 $('startBtn').onclick = () => socket.emit('room:start');
