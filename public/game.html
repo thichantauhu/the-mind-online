@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Mind Online</title>
+  <link rel="stylesheet" href="/game.css" />
+</head>
+<body>
+  <main class="game-shell">
+    <header class="topbar">
+      <div><h1>The Mind</h1><span id="roomLabel"></span></div>
+      <div class="stats"><div><b id="level">1</b><small>CẤP ĐỘ</small></div><div><b id="lives">♥♥♥♥</b><small>MẠNG</small></div><div><b id="shurikens">★</b><small>PHI TIÊU</small></div></div>
+    </header>
+
+    <section class="status-card" id="statusCard">
+      <div id="statusTitle">TẬP TRUNG</div>
+      <p id="statusText">Không nói, không ra hiệu. Hãy cảm nhận thời điểm.</p>
+    </section>
+
+    <section class="table">
+      <div class="players-row" id="players"></div>
+      <div class="center-area">
+        <div class="play-pile" id="playPile">—</div>
+        <div id="lastPlay" class="last-play">Các lá đã đánh sẽ hiện ở đây</div>
+      </div>
+      <div class="actions"><button id="shurikenBtn" class="shuriken" disabled>★ Phi tiêu</button></div>
+      <div class="hand-title">BÀI CỦA BẠN</div>
+      <div class="hand" id="hand"></div>
+    </section>
+
+    <section id="endPanel" class="end-panel" hidden>
+      <div class="end-box"><div id="endEmoji">🎉</div><h2 id="endTitle"></h2><p id="endText"></p><button id="restartBtn">Chơi lại</button><button id="backBtn" class="secondary">Về lobby</button></div>
+    </section>
+  </main>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/game.js"></script>
+</body>
+</html>
